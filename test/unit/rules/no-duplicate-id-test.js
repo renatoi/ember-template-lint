@@ -315,5 +315,53 @@ generateRuleTests({
         source: '@elementId="id-00"',
       },
     },
+    {
+      template: `
+      {{#if this.foo}}
+        <div id={{this.divId00}}></div>
+        <div id={{this.divId00}}></div>
+      {{else}}
+        <div id={{this.divId00}}></div>
+      {{/if}}
+    `,
+      result: {
+        message: ERROR_MESSAGE,
+        line: 1,
+        column: 0,
+        source: '<div id={{this.divId00}}></div>',
+      },
+    },
+    {
+      template: `
+      <div id={{this.divId00}}></div>
+      {{#if this.foo}}
+        <div id={{this.divId00}}></div>
+      {{else}}
+        <div id={{this.divId00}}></div>
+      {{/if}}
+    `,
+      result: {
+        message: ERROR_MESSAGE,
+        line: 1,
+        column: 0,
+        source: '<div id={{this.divId00}}></div>',
+      },
+    },
+    {
+      template: `
+      {{#if this.foo}}
+        <div id="otherid"></div>
+      {{else}}
+        <div id="anidhere"></div>
+      {{/if}}
+      <div id="anidhere"></div>
+    `,
+      result: {
+        message: ERROR_MESSAGE,
+        line: 1,
+        column: 0,
+        source: '<div id="anidhere"></div>',
+      },
+    },
   ],
 });
