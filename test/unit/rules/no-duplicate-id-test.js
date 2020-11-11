@@ -31,6 +31,7 @@ generateRuleTests({
     // BlockStatement
     '<div id="id-00"></div>{{#foo elementId="id-01"}}{{/foo}}',
     '{{#foo elementId="id-01"}}{{/foo}}<div id="id-00"></div>',
+    '{{#if}}<div id="id-00"></div>{{else}}<span id="id-00"></span>{{/if}}',
 
     // Number
     '<div id={{1234}}></div>',
