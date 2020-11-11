@@ -46,6 +46,73 @@ generateRuleTests({
 
     // Mixed
     '<div id="partA{{partB}}{{"partC"}}"></div><div id="{{"partA"}}{{"partB"}}partC"></div>',
+
+    // Bypass: *all* duplicate ids are contained within a control flow helper BlockStatement
+    `
+      {{#if this.foo}}
+        <div id="id-00"></div>
+      {{else}}
+        <div id="id-00"></div>
+      {{/if}}
+    `,
+    `
+      {{#if this.foo}}
+        <div id="id-00"></div>
+      {{else if this.bar}}
+        <div id="id-00"></div>
+      {{else}}
+        <div id="id-00"></div>
+      {{/if}}
+    `,
+    `
+      {{#unless this.foo}}
+        <div id="id-00"></div>
+      {{else}}
+        <div id="id-00"></div>
+      {{/unless}}
+    `,
+    `
+      {{#unless this.foo}}
+        <div id="id-00"></div>
+      {{else unless this.bar}}
+        <div id="id-00"></div>
+      {{else if this.baz}}
+        <div id="id-00"></div>
+      {{else}}
+        <div id="id-00"></div>
+      {{/unless}}
+    `,
+    `
+      {{#let 'foobar' as |footerId|}}
+        {{#if this.foo}}
+          <div id={{footerId}}></div>
+        {{else}}
+          <span id={{footerId}}></span>
+        {{/if}}
+      {{/let}}
+    `,
+    `
+      {{#if this.foo}}
+        <div id={{this.divId00}}></div>
+      {{else}}
+        <div id={{this.divId00}}></div>
+      {{/if}}
+    `,
+    `
+      {{#if this.foo}}
+        <div id="partA{{partB}}{{"partC"}}"></div>
+      {{else}}
+        <div id="partA{{partB}}{{"partC"}}"></div>
+      {{/if}}
+    `,
+
+    // Bypass: *some* duplicate ids are contained within a control flow helper BlockStatement
+    `
+      <div id="id-00"></div>
+      {{#if this.foo}}
+        <div id="id-00"></div>
+      {{/if}}
+    `,
   ],
 
   bad: [
